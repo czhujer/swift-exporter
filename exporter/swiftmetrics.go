@@ -274,8 +274,9 @@ func GatherStoragePolicyCommonName() map[string]string {
 
 	readFile := bufio.NewScanner(openFile)
 	for readFile.Scan() {
-		if strings.Contains(readFile.Text(), "storage-policy:") {
+		if strings.Contains(readFile.Text(), "[storage-policy:") {
 			storagePolicyIndex := strings.TrimRight(strings.Split(readFile.Text(), ":")[1], "]")
+			//fmt.Printf("storagePolicyIndex: %s\n", storagePolicyIndex)
 			readFile.Scan() // read the next line
 			readStoragePolicyNameBuffer := readFile.Text()
 			readStoragePolicyName := strings.Split(readStoragePolicyNameBuffer, "=")
