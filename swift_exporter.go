@@ -35,16 +35,16 @@ type Config struct {
 }
 
 /*
-This var() section sets the port which promohttp (Promethes HTTP server) uses.
+This var() section sets the port which promhttp (Prometheus HTTP server) uses.
 In addition, accountServer, containerServer, and objectServer initializes gauge-type prometheus
 metrics data.
 */
 var (
-	scriptVersion                           = "0.8.5"
-	timeLastRun                             = "00:00:00"
+	scriptVersion = "0.8.5"
+	//timeLastRun                             = "00:00:00"
 	swiftExporterLogFile                    = "/var/log/swift_exporter.log"
 	swiftExporterLog, swiftExporterLogError = os.OpenFile(swiftExporterLogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	addr                                    = flag.String("listen-address", ":53167", "The addres to listen on for HTTP requests.")
+	addr                                    = flag.String("listen-address", ":53167", "The address to listen on for HTTP requests.")
 	abScriptVersionPara                     = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ac_script_version",
 		Help: "swift_exporter version 0.8.5",
@@ -74,7 +74,7 @@ var (
 	   /opt/ss/bin/swift_exporter --help | --version `
 )
 
-// Metrics have to be registeered to be expose, so this is done below.
+// Metrics have to be registered to be expose, so this is done below.
 func init() {
 	prometheus.MustRegister(abScriptVersionPara)
 	if swiftExporterLogError != nil {
@@ -170,7 +170,7 @@ func ParseConfigFile(configFileLocation string) {
 	// If yaml.Unmarshal cannot extra data and put into the map data structure, do the following:
 	if err != nil {
 		writeLogFile.Fatalf("cannot unmarshal %v", err)
-		writeLogFile.Println(err)
+		//writeLogFile.Println(err)
 	}
 }
 
