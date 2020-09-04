@@ -481,13 +481,18 @@ func CheckSwiftLogSize(swiftLog string) {
 	swiftLogFileHandle, err := os.Open(swiftLog)
 	if err != nil {
 		//		writeLogFile.Println("Cannot open this file. Exiting")
-		os.Exit(1)
+		fmt.Printf("Cannot open file \"%s\"\n", swiftLog)
+		//os.Exit(1)
 	}
 	defer swiftLogFileHandle.Close()
 
 	fileInfo, err := swiftLogFileHandle.Stat()
-	swiftLogFileSize.Set(float64(fileInfo.Size()))
-	//	writeLogFile.Printf("Swift all.log Size: %f", float64(fileInfo.Size()))
+	if err != nil {
+		swiftLogFileSize.Set(float64(-1))
+	} else {
+		swiftLogFileSize.Set(float64(fileInfo.Size()))
+		//	writeLogFile.Printf("Swift all.log Size: %f", float64(fileInfo.Size()))
+	}
 }
 
 // GatherStoragePolicyUtilization do a "du -s" across all Swift nodes ("/srv/node") and expose
